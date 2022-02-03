@@ -173,21 +173,23 @@ impl MainMenu {
     }
 }
 
-fn main() {
-    // Create bill structur
+fn run_program() -> Option<()> {
     let mut bills = Bills::new();
 
     loop {
         MainMenu::show();
-        let input = get_input().expect("No data entered");
+        let input = get_input()?;
         match MainMenu::from_str(input.as_str()) {
             Some(MainMenu::AddBill) => menu::add_bill(&mut bills),
             Some(MainMenu::RemoveBill) => menu::remove_bill(&mut bills),
             Some(MainMenu::UpdateBill) => menu::update_bill(&mut bills),
             Some(MainMenu::ViewBill) => menu::view_bills(&bills),
-            None => return,
+            None => break,
         }
-        // Display the menu
-        // Make a choicem base on input
     }
+    None
+}
+
+fn main() {
+    run_program();
 }
